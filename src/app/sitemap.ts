@@ -1,0 +1,13 @@
+import type { MetadataRoute } from "next";
+import { site } from "@/content/site";
+
+export const dynamic = "force-static";
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const now = new Date();
+  return [
+    { url: `${site.url}/`, lastModified: now, changeFrequency: "monthly", priority: 1 },
+    { url: `${site.url}/politica-de-privacidade/`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
+    { url: `${site.url}/termos-de-uso/`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
+  ];
+}
