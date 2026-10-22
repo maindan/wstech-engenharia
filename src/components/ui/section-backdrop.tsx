@@ -12,7 +12,6 @@ type Variant = "why" | "services" | "panels" | "process" | "contact";
 type Config = {
   traces: string[];
   nodes: [number, number][];
-  blobs: string[];
   gear?: string;
   dots?: string;
 };
@@ -34,7 +33,6 @@ const configs: Record<Variant, Config> = {
       [170, 790],
       [100, 240],
     ],
-    blobs: ["-top-24 -left-32 size-[480px] bg-yellow-500/30", "right-[-10%] bottom-[-10%] size-[540px] bg-navy-600/15"],
     gear: "-right-28 bottom-[-6rem] size-[380px]",
     dots: "[mask-image:radial-gradient(ellipse_at_right,black_10%,transparent_65%)]",
   },
@@ -51,7 +49,6 @@ const configs: Record<Variant, Config> = {
       [310, 710],
       [1150, 810],
     ],
-    blobs: ["-top-20 right-[-8%] size-[540px] bg-navy-600/15", "bottom-[-8%] -left-24 size-[480px] bg-yellow-500/25"],
     gear: "-left-32 bottom-[-5rem] size-[340px]",
   },
   panels: {
@@ -68,7 +65,6 @@ const configs: Record<Variant, Config> = {
       [540, 800],
       [940, 840],
     ],
-    blobs: ["top-[55%] left-1/2 h-[520px] w-[820px] -translate-x-1/2 -translate-y-1/2 bg-yellow-500/[0.2]"],
   },
   process: {
     traces: [
@@ -83,7 +79,6 @@ const configs: Record<Variant, Config> = {
       [340, 820],
       [1140, 830],
     ],
-    blobs: ["top-1/3 -left-40 size-[440px] bg-yellow-500/25", "-right-40 bottom-0 size-[480px] bg-navy-600/15"],
     dots: "[mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]",
   },
   contact: {
@@ -94,7 +89,6 @@ const configs: Record<Variant, Config> = {
       [440, 840],
       [1060, 820],
     ],
-    blobs: ["-top-24 right-[-6%] size-[500px] bg-yellow-500/25", "bottom-[-10%] -left-28 size-[480px] bg-navy-600/15"],
     gear: "-top-28 -left-28 size-[320px]",
   },
 };
@@ -114,7 +108,7 @@ function yValues(d: string) {
 }
 const onEdge = (ys: number[]) => ys.every((y) => y <= EDGE_TOP) || ys.every((y) => y >= EDGE_BOTTOM);
 
-// Fundo decorativo das seções claras: trilhas com pulsos, manchas de luz, engrenagem e malha de pontos.
+// Fundo decorativo das seções claras: trilhas com pulsos, engrenagem e malha de pontos.
 // A seção precisa de `relative isolate` para o -z-10 ficar acima da cor de fundo.
 export function SectionBackdrop({ variant, className }: { variant: Variant; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -128,20 +122,17 @@ export function SectionBackdrop({ variant, className }: { variant: Variant; clas
 
   return (
     <div ref={ref} aria-hidden className={cn("pointer-events-none absolute inset-0 -z-10 overflow-hidden", className)}>
-      {c.blobs.map((b) => (
-        <div key={b} className={cn("absolute rounded-full blur-3xl", b)} />
-      ))}
       {c.dots && (
         <div
           className={cn(
-            "absolute inset-0 bg-[radial-gradient(rgb(2_57_96/0.24)_1px,transparent_1.6px)] bg-[length:22px_22px]",
+            "absolute inset-0 bg-[radial-gradient(rgb(2_57_96/0.12)_1px,transparent_1.6px)] bg-[length:22px_22px]",
             c.dots,
           )}
         />
       )}
       {c.gear && (
         <m.div
-          className={cn("absolute text-navy-800/[0.07]", c.gear)}
+          className={cn("absolute text-navy-800/[0.035]", c.gear)}
           animate={loop ? { rotate: 360 } : undefined}
           transition={{ duration: 70, ease: "linear", repeat: Infinity }}
         >
@@ -154,7 +145,7 @@ export function SectionBackdrop({ variant, className }: { variant: Variant; clas
         fit="stretch"
         traces={traces}
         nodes={nodes}
-        className="absolute inset-0 size-full"
+        className="absolute inset-0 size-full opacity-50"
       />
     </div>
   );
