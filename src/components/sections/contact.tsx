@@ -4,6 +4,7 @@ import { Clock, Mail, MapPin, Phone, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { Gear, WhatsAppIcon } from "@/components/icons/brand-icons";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
+import { SectionBackdrop } from "@/components/ui/section-backdrop";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { useWhatsApp } from "@/components/whatsapp/whatsapp-context";
 import { site } from "@/content/site";
@@ -33,8 +34,8 @@ export function Contact() {
   ];
 
   return (
-    <section id="contato" aria-labelledby="contato-title" className="section-y relative bg-paper">
-      <div aria-hidden className="bg-circuit-dark pointer-events-none absolute inset-0 opacity-[0.035]" />
+    <section id="contato" aria-labelledby="contato-title" className="section-y relative isolate bg-paper">
+      <SectionBackdrop variant="contact" />
       <div className="container-site relative">
         <Reveal className="grid overflow-hidden rounded-[32px] shadow-lg lg:grid-cols-12 lg:rounded-[44px]">
           {/* Painel de canais */}

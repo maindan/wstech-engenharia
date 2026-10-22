@@ -6,6 +6,7 @@ import { useRef } from "react";
 import { WhatsAppIcon } from "@/components/icons/brand-icons";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { Button } from "@/components/ui/button";
+import { SectionBackdrop } from "@/components/ui/section-backdrop";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { useWhatsApp } from "@/components/whatsapp/whatsapp-context";
 import { useDragScroll } from "@/hooks/use-drag-scroll";
@@ -29,7 +30,8 @@ export function Services() {
   const emergency = services.find((s) => s.highlight);
 
   return (
-    <div className="section-y relative">
+    <div className="section-y relative isolate">
+      <SectionBackdrop variant="services" />
       <div className="container-site grid gap-12 lg:grid-cols-12 lg:gap-12">
         {/* Coluna fixa (desktop) */}
         <div className="min-w-0 lg:col-span-4">

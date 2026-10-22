@@ -3,6 +3,7 @@
 import { m } from "motion/react";
 import { Check, Star } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
+import { SectionBackdrop } from "@/components/ui/section-backdrop";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { panels } from "@/content/services";
 import { track } from "@/lib/analytics";
@@ -12,8 +13,8 @@ import { whatsappLink } from "@/lib/whatsapp";
 
 export function Panels() {
   return (
-    <div className="section-y relative overflow-hidden">
-      <div aria-hidden className="bg-circuit-dark pointer-events-none absolute inset-0 opacity-[0.035]" />
+    <div className="section-y relative isolate overflow-hidden">
+      <SectionBackdrop variant="panels" />
       <div className="container-site relative">
         <SectionHeading
           align="center"

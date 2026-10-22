@@ -2,9 +2,8 @@
 
 import { m } from "motion/react";
 
-// Trilhas de circuito com "pulsos" de energia correndo por elas (fundo do hero).
-// Ficam nas bordas e à direita, longe do bloco de texto
-const traces = [
+// Trilhas do hero: ficam nas bordas e à direita, longe do bloco de texto
+const heroTraces = [
   "M-20 70 H160 L200 30 H420",
   "M1460 90 H1180 L1120 150 H980 L940 110 H820",
   "M1460 520 H1300 L1240 460 H1080 L1040 500 H900",
@@ -12,21 +11,81 @@ const traces = [
   "M-20 880 H160 L220 820 H380",
   "M760 -20 V60 L800 100 H880",
 ];
+const heroNodes: [number, number][] = [
+  [200, 30],
+  [1120, 150],
+  [1240, 460],
+  [1160, 760],
+  [220, 820],
+  [800, 100],
+];
 
-export function CircuitPulses({ active, className }: { active: boolean; className?: string }) {
+const tones = {
+  dark: {
+    base: "#ffffff",
+    baseOpacity: 0.07,
+    pulse: "#fcd77a",
+    glow: "rgb(248 178 20 / 0.9)",
+    node: "#f8b214",
+    nodeOpacity: 0.35,
+  },
+  light: {
+    base: "#023960",
+    baseOpacity: 0.16,
+    pulse: "#f8b214",
+    glow: "rgb(248 178 20 / 0.8)",
+    node: "#023960",
+    nodeOpacity: 0.3,
+  },
+};
+
+type Props = {
+  active: boolean;
+  className?: string;
+  tone?: keyof typeof tones;
+  traces?: string[];
+  nodes?: [number, number][];
+  // "stretch": as trilhas acompanham a altura da seção (útil em seções altas); o traço não deforma
+  fit?: "cover" | "stretch";
+};
+
+// Trilhas de circuito com "pulsos" de energia correndo por elas.
+export function CircuitPulses({
+  active,
+  className,
+  tone = "dark",
+  traces = heroTraces,
+  nodes = heroNodes,
+  fit = "cover",
+}: Props) {
+  const t = tones[tone];
+  const stretch = fit === "stretch";
   return (
-    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" className={className} fill="none" aria-hidden>
+    <svg
+      viewBox="0 0 1440 900"
+      preserveAspectRatio={stretch ? "none" : "xMidYMid slice"}
+      className={className}
+      fill="none"
+      aria-hidden
+    >
       {traces.map((d, i) => (
         <g key={i}>
-          <path d={d} stroke="white" strokeOpacity={0.07} strokeWidth={1.5} />
+          <path
+            d={d}
+            stroke={t.base}
+            strokeOpacity={t.baseOpacity}
+            strokeWidth={tone === "light" ? 2 : 1.5}
+            vectorEffect="non-scaling-stroke"
+          />
           {active && (
             <m.path
               d={d}
               pathLength={1}
-              stroke="#fcd77a"
-              style={{ filter: "drop-shadow(0 0 5px rgb(248 178 20 / 0.9))" }}
-              strokeWidth={2.5}
+              stroke={t.pulse}
+              style={{ filter: `drop-shadow(0 0 5px ${t.glow})` }}
+              strokeWidth={tone === "light" ? 3 : 2.5}
               strokeLinecap="round"
+              vectorEffect="non-scaling-stroke"
               strokeDasharray="0.12 1"
               initial={{ strokeDashoffset: 1.12 }}
               animate={{ strokeDashoffset: 0 }}
@@ -35,15 +94,17 @@ export function CircuitPulses({ active, className }: { active: boolean; classNam
           )}
         </g>
       ))}
-      {[
-        [200, 30],
-        [1120, 150],
-        [1240, 460],
-        [1160, 760],
-        [220, 820],
-        [800, 100],
-      ].map(([cx, cy]) => (
-        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r={3.5} fill="#f8b214" fillOpacity={0.35} />
+      {/* Nós como traços de comprimento zero com ponta redonda: continuam redondos mesmo esticados */}
+      {nodes.map(([x, y]) => (
+        <path
+          key={`${x}-${y}`}
+          d={`M${x} ${y}h0`}
+          stroke={t.node}
+          strokeOpacity={t.nodeOpacity}
+          strokeWidth={7}
+          strokeLinecap="round"
+          vectorEffect="non-scaling-stroke"
+        />
       ))}
     </svg>
   );

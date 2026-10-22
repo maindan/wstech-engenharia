@@ -3,6 +3,7 @@
 import { m, useMotionValueEvent, useScroll, useSpring } from "motion/react";
 import { ClipboardCheck, MessageCircle, ShieldCheck, Wrench, type LucideIcon } from "lucide-react";
 import { useRef, useState } from "react";
+import { SectionBackdrop } from "@/components/ui/section-backdrop";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { steps } from "@/content/services";
 import { cn } from "@/lib/cn";
@@ -21,7 +22,8 @@ export function Process() {
   });
 
   return (
-    <div className="section-y relative bg-white">
+    <div className="section-y relative isolate bg-white">
+      <SectionBackdrop variant="process" />
       <div className="container-site">
         <SectionHeading
           align="center"

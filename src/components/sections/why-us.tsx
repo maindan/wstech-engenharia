@@ -5,6 +5,7 @@ import { ClipboardCheck, Gauge, Search, Tags, type LucideIcon } from "lucide-rea
 import { useRef } from "react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { Button } from "@/components/ui/button";
+import { SectionBackdrop } from "@/components/ui/section-backdrop";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { SpinBadge } from "@/components/ui/spin-badge";
 import { useWhatsApp } from "@/components/whatsapp/whatsapp-context";
@@ -34,8 +35,8 @@ export function WhyUs() {
   const blobRotate = useTransform(scrollYProgress, [0, 1], [-8, 14]);
 
   return (
-    <section aria-labelledby="why-title" className="relative overflow-hidden bg-paper pt-12 pb-20 lg:pt-20 lg:pb-32">
-      <div aria-hidden className="bg-circuit-dark pointer-events-none absolute inset-y-0 right-0 w-1/2 opacity-[0.04]" />
+    <section aria-labelledby="why-title" className="relative isolate overflow-hidden bg-paper pt-12 pb-20 lg:pt-20 lg:pb-32">
+      <SectionBackdrop variant="why" />
 
       <div className="container-site grid items-center gap-16 lg:grid-cols-12 lg:gap-16">
         {/* Colagem de fotos */}
